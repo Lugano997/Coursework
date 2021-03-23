@@ -5,16 +5,16 @@
 
 import pandas as pd
 import numpy as np
-import datetime as dt
-import psycopg2
-import matplotlib.pyplot as plt
-from dateutil.relativedelta import *
-from pandas.tseries.offsets import *
-from scipy import stats
+# import datetime as dt
+# import psycopg2
+# import matplotlib.pyplot as plt
+# from dateutil.relativedelta import *
+# from pandas.tseries.offsets import *
+# from scipy import stats
 
 # Importing and visualizing the datasets
 
-comp = pd.read_csv('C:/Users/dario/PycharmProjects/ACF_602/ACF602/ACF 602 Coursework/CRSP_Compustat.csv')
+comp = pd.read_csv('C:/Users/lucac/PycharmProjects/pythonProject/ScriptLancaster/CRSP_Compustat.csv')
 
 # Convert the datadate into Dates
 
@@ -54,10 +54,13 @@ comp['xsga'] = comp['xsga'].fillna(0)
 
 # We have to divide for the BE value, so in order to avoid a divided for 0 error we are going to remove all the nan
 
-comp['be'] =pd.to_numeric(comp['be'],errors='coerce')
+comp['be'] = pd.to_numeric(comp['be'], errors='coerce')
 comp = comp[comp['be'].notnull()]
 
 # Creating the RI column
+comp['ig'] = comp['at'].pct_change()
+comp['count'] = comp.groupby(['GVKEY']).cumcount()
+comp['ig'] = np.where(comp['count'] == 0, np.nan, comp['ig'])
 
 comp['ri'] = (comp['revt']-comp['cogs']-comp['xsga'])/comp['be']
 
