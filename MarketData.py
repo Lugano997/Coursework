@@ -98,3 +98,5 @@ crsp3 = crsp2[crsp2['month'] == 6]
 
 # merge with market cap in last December --> 20190630 <--> 20181231
 crspjune = pd.merge(crsp3, decme, how='left', on=['PERMNO', 'ffdate'])
+
+print("ccuc")

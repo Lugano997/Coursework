@@ -70,5 +70,16 @@ comp['ri'] = (comp['revt']-comp['cogs']-comp['xsga'])/comp['be']
 # Investment Growth: IG = (Total asset(t) - Total asset(t-1))/Total asset(t-1)
 # Unfortunately, as a consquences of the applied formula we are going to lose an observation.
 
+comp = comp.sort_values(by=['LPERMNO', 'datadate'])
+comp['count'] = comp.groupby(['LPERMNO']).cumcount()  # Note that this starts from zero
+# lo usiamo per evitare l'effetto sopravvivenza
 
+# Some companies change fiscal year end in the middle of the calendar year
+# In these cases, there are more than one annual record for accounting data
+# We need to select the last annual record in a given calendar year
+comp = comp.sort_values(by=['LPERMNO', 'year', 'datadate'])
+comp = comp.drop_duplicates(subset=['LPERMNO', 'year'], keep='last')
+
+# keep necessary variables and rename for future matching
+comp = comp[['LPERMNO', 'GVKEY', 'datadate', 'year', 'be', 'count','ri', 'ig']].rename(columns={'LPERMNO': 'PERMNO'})
 
