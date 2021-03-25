@@ -3,7 +3,8 @@ import numpy as np
 from Coursework import comp
 from MarketData import crspjune
 from pandas.tseries.offsets import *
-
+import MarketData
+import Coursework
 
 # Part 3 Merge CRSP with Compustat data on June of each year (Hard to understand but very important)
 
@@ -21,7 +22,7 @@ comp['jdate'] = comp['datadate'] + YearEnd(0)
 comp['jdate'] = comp['jdate'] + MonthEnd(6)
 
 # keep necessary variables in Compustat
-comp2 = comp[['PERMNO', 'jdate', 'be', 'count']]
+comp2 = comp[['PERMNO', 'jdate', 'be', 'ri', 'ig', 'count']]
 
 # keep necessary variables in crspjune
 crspjune2 = crspjune[['PERMNO', 'PERMCO', 'jdate', 'RET_ADJ', 'me', 'lme', 'dec_me', 'EXCHCD']]
@@ -31,4 +32,3 @@ ccm_june = pd.merge(crspjune, comp2, how='inner', on=['PERMNO', 'jdate'])
 
 # Generate book to market ratio (B/M)
 ccm_june['beme'] = ccm_june['be'] / ccm_june['dec_me']
-print("hgfj")

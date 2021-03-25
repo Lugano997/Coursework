@@ -41,7 +41,7 @@ from pandas.tseries.offsets import *
 
 
 # Import data (Please declare your path when you import data --> the place you store the data)
-comp = pd.read_csv('../CRSP_Compustat_Merged.csv')
+comp = pd.read_csv('CRSP_Compustat_Merged.csv')
 
 # covert date to pandas date format
 comp['datadate'] = comp['datadate'].astype(str)
@@ -74,7 +74,7 @@ comp = comp.sort_values(by=['LPERMNO', 'year', 'datadate'])
 comp = comp.drop_duplicates(subset=['LPERMNO', 'year'], keep='last')
 
 # keep necessary variables and rename for future matching
-comp = comp[['LPERMNO', 'GVKEY', 'datadate', 'year', 'be', 'count','ri', 'ig']].rename(columns={'LPERMNO': 'PERMNO'})
+comp = comp[['LPERMNO', 'GVKEY', 'datadate', 'year', 'be', 'count']].rename(columns={'LPERMNO': 'PERMNO'})
 
 #################################################################################################################
 # Part 2 CRSP data
@@ -91,7 +91,7 @@ comp = comp[['LPERMNO', 'GVKEY', 'datadate', 'year', 'be', 'count','ri', 'ig']].
 #################################################################################################################
 
 # Import crsp data
-crsp_m = pd.read_csv('../CRSP_FF3.csv')
+crsp_m = pd.read_csv('CRSP_FF3.csv')
 
 # Filter data
 
@@ -270,6 +270,7 @@ ccm_june2['bmport'] = np.where((ccm_june2['beme'] > 0) & (ccm_june2['me'] > 0) &
 # Create positivebmeme and nonmissport variable
 ccm_june2['posbm'] = np.where((ccm_june2['beme'] > 0) & (ccm_june2['me'] > 0) & (ccm_june2['count'] >= 1), 1, 0)
 ccm_june2['nonmissport'] = np.where((ccm_june2['bmport'] != ''), 1, 0)
+
 
 # Store portfolio assignment as of June
 june = ccm_june2[['PERMNO', 'jdate', 'bmport', 'szport', 'posbm', 'nonmissport']]

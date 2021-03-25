@@ -14,7 +14,7 @@ import numpy as np
 
 # Importing and visualizing the datasets
 
-comp = pd.read_csv('C:/Users/lucac/PycharmProjects/pythonProject/ScriptLancaster/CRSP_Compustat.csv')
+comp = pd.read_csv('CRSP_Compustat.csv')
 
 # Convert the datadate into Dates
 
